@@ -52,7 +52,11 @@ class ceph(base.CommandExecutor):
     def execute(self, cmdname, **para):
         isSuccess, result = self.generate(cmdname, **para)
         if isSuccess:
-            return True, self.executeCmd(result)
+            try:
+                execresult = self.executeCmd(result)
+                return True, execresult
+            except Exception, e:
+                return False, e
         else:
             return False, result
        
